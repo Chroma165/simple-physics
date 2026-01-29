@@ -1,9 +1,11 @@
 class Ball{
-    constructor(pos, vel, diameter, mass, ) {
-        this.pos = pos;
-        this.vel = vel;
-        this.diameter = diameter;
-        this.mass = mass;
-        this.force = [0, 0];
-    }
+  constructor(pos, vel, radius, mass, color) {
+    this.pos = pos;
+    this.vel = vel;
+    this.radius = radius;
+    this.mass = mass;
+    this.color = color;
+    this.force = [0, 0];
+    instances.push(this);
+  }
 }
