@@ -21,12 +21,10 @@ class Ball{
         let tangentVel = dotProduct(tangent, this.vel);
 
         if(normalVel <= 0) {
-          console.log(this.vel);
           this.vel[0] = -( normalVel  *  normal[0] )
                        + (-tangentVel *  normal[1] );
           this.vel[1] = -( normalVel  *  normal[1] )
                        + (-tangentVel * -normal[0] );
-          console.log(this.vel);
         }
 
       }
