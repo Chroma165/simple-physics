@@ -1,19 +1,20 @@
 const screen = document.querySelector("#screen");
 const ctx = screen.getContext("2d");
-const instances = [];
+const physObjects = [];
 const environment = [
-  [0,0], [0,1000], [1000,1000],[1000,0]
+  [20,20], [20,980], [980,980],[980,20]
 ]; // Array of dots counter clockwise
 
-const ball1 = new Ball([200, 200], [5,5], 10, 1, "#8800ff");
-const ball2 = new Ball([400, 600], [-4,-3], 20, 2, "#0000ff");
+const ball1 = new Ball([400, 400], [60,50], 10, 1, 1, "#8800ff", ctx);
+const ball2 = new Ball([400, 600], [40,-30], 20, 2, 1, "#0000ff", ctx);
+
 
 
 // // // DRAW SCREEN // // //
 let lastTime;
 function drawScreen(time) {
   if (lastTime != null) {
-    const deltaTime = time - lastTime;
+    const deltaTime = (time - lastTime)/1000;
     update(deltaTime);
   }
 
@@ -23,5 +24,20 @@ function drawScreen(time) {
 window.requestAnimationFrame(drawScreen);
 
 function update(deltaTime) {
-	
+  ctx.clearRect(0, 0, screen.width, screen.height);
+
+  ctx.beginPath();
+  for(let i=0; i<environment.length; i++){
+    ctx.lineTo(environment[i][0], environment[i][1]);
+  }
+  ctx.lineTo(environment[0][0], environment[0][1]);
+  ctx.stroke();
+
+	physObjects.forEach((physObject) => {
+    physObject.update(physObjects, environment);
+  });
+  physObjects.forEach((physObject) => {
+    physObject.move(deltaTime);
+    physObject.draw();
+  });
 }

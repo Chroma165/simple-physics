@@ -1,10 +1,10 @@
 body {
-  background: black;
-  color: white;
+  background: hsl(0, 0%, 5%);
+  color: hsl(0, 0%, 90%);
   text-align: center;
   align-items: center;
 }
 
 #screen {
-  background: white;
+  background: hsl(0, 0%, 90%);
 }
