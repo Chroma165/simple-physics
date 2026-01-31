@@ -10,26 +10,58 @@ class Ball{
     this.ctx = ctx;
     physObjects.push(this);
   }
+
   update(physObjects, environment){
     for(let i=0; i<environment.length; i++){
       let j = i >= environment.length-1 ? 0 : i+1;
+      const segmentLength = Math.hypot((environment[i][0]-environment[j][0]), (environment[i][1]-environment[j][1]));
       const normal = getNormalVec(environment[i], environment[j]);
       const tangent = getTangentVec(environment[i], environment[j]);
+      const relPos = vecSub(this.pos, environment[i]);
+      const distanceAlong = dotProduct(tangent, relPos);
 
-      if(dotProduct(normal, vecSub(this.pos, environment[i])) <= this.radius){ // if ball is touching wall
-        let normalVel = dotProduct(normal, this.vel);
-        let tangentVel = dotProduct(tangent, this.vel);
+      if(dotProduct(normal, relPos) <= this.radius){ // if ball is touching/behind wall
+        if(distanceAlong > 0 && distanceAlong < segmentLength){ // if ball is next to wall
+          let normalVel = dotProduct(normal, this.vel);
+          let tangentVel = dotProduct(tangent, this.vel);
+  
+          if(normalVel <= 0) {
+            this.vel[0] = -( normalVel  *  normal[0] )
+                         + (-tangentVel *  normal[1] );
+            this.vel[1] = -( normalVel  *  normal[1] )
+                         + (-tangentVel * -normal[0] );
+          }
+        } else if((distanceAlong <= 0 && distanceAlong >= -this.radius) && getDistance(this.pos, environment[i]) <= this.radius){ // if ball is hitting corner
+          const kindaNormal = getTangentVec(environment[i], this.pos);
 
-        if(normalVel <= 0) {
-          this.vel[0] = -( normalVel  *  normal[0] )
-                       + (-tangentVel *  normal[1] );
-          this.vel[1] = -( normalVel  *  normal[1] )
-                       + (-tangentVel * -normal[0] );
+          let normalVel = dotProduct(kindaNormal, this.vel);
+          let tangentVel = dotProduct(tangent, this.vel);
+
+          if(normalVel <= 0) {
+            this.vel[0] = -( normalVel  *  kindaNormal[0] )
+                         + (-tangentVel *  kindaNormal[1] );
+            this.vel[1] = -( normalVel  *  kindaNormal[1] )
+                         + (-tangentVel * -kindaNormal[0] );
+          }
+        } else if((distanceAlong >= segmentLength && distanceAlong <= segmentLength+this.radius) && getDistance(this.pos, environment[j]) <= this.radius){ // if ball is hitting other corner
+          const kindaNormal = getTangentVec(environment[j], this.pos);
+
+          let normalVel = dotProduct(kindaNormal, this.vel);
+          let tangentVel = dotProduct(tangent, this.vel);
+
+          if(normalVel <= 0) {
+            this.vel[0] = -( normalVel  *  kindaNormal[0] )
+                         + (-tangentVel *  kindaNormal[1] );
+            this.vel[1] = -( normalVel  *  kindaNormal[1] )
+                         + (-tangentVel * -kindaNormal[0] );
+          }
         }
 
       }
     }
   }
+
+
   move(deltaTime){
     this.vel = vecAdd(this.vel, this.force);
     this.pos = vecAdd(this.pos, this.vel, deltaTime);

@@ -31,3 +31,6 @@ function getTangentVec(p1, p2) {
   normalizeVec(tangentVec);
   return tangentVec;
 }
+function getDistance(p1, p2){
+  return Math.hypot(p1[0]-p2[0], p1[1]-p2[1]);
+}
