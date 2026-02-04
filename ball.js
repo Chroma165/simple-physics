@@ -26,9 +26,9 @@ class Ball{
           let tangentVel = dotProduct(tangent, this.vel);
   
           if(normalVel <= 0) {
-            this.vel[0] = -( normalVel  *  normal[0] )
+            this.vel[0] = -( normalVel  *  normal[0] ) * this.restitution
                          + (-tangentVel *  normal[1] );
-            this.vel[1] = -( normalVel  *  normal[1] )
+            this.vel[1] = -( normalVel  *  normal[1] ) * this.restitution
                          + (-tangentVel * -normal[0] );
           }
         } else if((distanceAlong <= 0 && distanceAlong >= -this.radius) && getDistance(this.pos, environment[i]) <= this.radius){ // if ball is hitting corner
@@ -64,6 +64,7 @@ class Ball{
 
   move(deltaTime){
     this.vel = vecAdd(this.vel, this.force);
+    this.vel[1] += 10;
     this.pos = vecAdd(this.pos, this.vel, deltaTime);
   }
   draw(){

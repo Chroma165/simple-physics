@@ -2,11 +2,11 @@ const screen = document.querySelector("#screen");
 const ctx = screen.getContext("2d");
 const physObjects = [];
 const environment = [
-  [20,20], [20,980], [500,500], [950,950],[980,20]
+  [20,20], [20,980], [500,500], [980,980],[980,20]
 ]; // Array of dots counter clockwise
 
-const ball1 = new Ball([200, 220], [60,60], 20, 1, 1, "#8800ff", ctx);
-//const ball2 = new Ball([400, 500], [40,-30], 20, 2, 1, "#0000ff", ctx);
+const ball1 = new Ball([220, 200], [200,200], 20, 1, 0.9, "#8800ff", ctx);
+const ball2 = new Ball([780, 200], [-200,200], 40, 2, 0.9, "#0000ff", ctx);
 
 
 
