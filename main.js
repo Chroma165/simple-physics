@@ -5,8 +5,8 @@ const environment = [
   [20,20], [20,980], [500,500], [980,980],[980,20]
 ]; // Array of dots counter clockwise
 
-const ball1 = new Ball([220, 200], [200,200], 20, 1, 0.9, "#8800ff", ctx);
-const ball2 = new Ball([780, 200], [-200,200], 40, 2, 0.9, "#0000ff", ctx);
+const ball1 = new Ball([780, 200], [-350,100], 20, 1, 0.9, "#8800ff", ctx);
+const ball2 = new Ball([780, 300], [-200,200], 40, 2, 0.9, "#0000ff", ctx);
 
 
 

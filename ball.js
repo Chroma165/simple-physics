@@ -33,9 +33,10 @@ class Ball{
           }
         } else if((distanceAlong <= 0 && distanceAlong >= -this.radius) && getDistance(this.pos, environment[i]) <= this.radius){ // if ball is hitting corner
           const kindaNormal = getTangentVec(environment[i], this.pos);
+          const kindaTangent = getNormalVec(environment[i], this.pos);
 
           let normalVel = dotProduct(kindaNormal, this.vel);
-          let tangentVel = dotProduct(tangent, this.vel);
+          let tangentVel = dotProduct(kindaTangent, this.vel);
 
           if(normalVel <= 0) {
             this.vel[0] = -( normalVel  *  kindaNormal[0] )
@@ -45,9 +46,10 @@ class Ball{
           }
         } else if((distanceAlong >= segmentLength && distanceAlong <= segmentLength+this.radius) && getDistance(this.pos, environment[j]) <= this.radius){ // if ball is hitting other corner
           const kindaNormal = getTangentVec(environment[j], this.pos);
+          const kindaTangent = getNormalVec(this.pos, environment[j]);
 
           let normalVel = dotProduct(kindaNormal, this.vel);
-          let tangentVel = dotProduct(tangent, this.vel);
+          let tangentVel = dotProduct(kindaTangent, this.vel);
 
           if(normalVel <= 0) {
             this.vel[0] = -( normalVel  *  kindaNormal[0] )
